@@ -1,6 +1,6 @@
-import React from 'react';
-import { Activity, Clock, User } from 'lucide-react';
-import { ActivityLog as ActivityLogType } from '../types';
+import React from "react";
+import { Activity, Clock } from "lucide-react";
+import { ActivityLog as ActivityLogType } from "../types";
 
 interface ActivityLogProps {
   activityLog: ActivityLogType[];
@@ -8,44 +8,48 @@ interface ActivityLogProps {
   onClose: () => void;
 }
 
-export const ActivityLog: React.FC<ActivityLogProps> = ({ activityLog, isOpen, onClose }) => {
+export const ActivityLog: React.FC<ActivityLogProps> = ({
+  activityLog,
+  isOpen,
+  onClose,
+}) => {
   if (!isOpen) return null;
 
   const getActivityIcon = (action: string) => {
     switch (action) {
-      case 'created':
-        return '🆕';
-      case 'updated':
-        return '✏️';
-      case 'moved':
-        return '🔄';
-      case 'deleted':
-        return '🗑️';
-      case 'smart-assigned':
-        return '🤖';
-      case 'conflict-resolved':
-        return '🔧';
+      case "created":
+        return "🆕";
+      case "updated":
+        return "✏️";
+      case "moved":
+        return "🔄";
+      case "deleted":
+        return "🗑️";
+      case "smart-assigned":
+        return "🤖";
+      case "conflict-resolved":
+        return "🔧";
       default:
-        return '📝';
+        return "📝";
     }
   };
 
   const getActivityColor = (action: string) => {
     switch (action) {
-      case 'created':
-        return 'bg-green-100 text-green-800';
-      case 'updated':
-        return 'bg-blue-100 text-blue-800';
-      case 'moved':
-        return 'bg-purple-100 text-purple-800';
-      case 'deleted':
-        return 'bg-red-100 text-red-800';
-      case 'smart-assigned':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'conflict-resolved':
-        return 'bg-orange-100 text-orange-800';
+      case "created":
+        return "bg-green-100 text-green-800";
+      case "updated":
+        return "bg-blue-100 text-blue-800";
+      case "moved":
+        return "bg-purple-100 text-purple-800";
+      case "deleted":
+        return "bg-red-100 text-red-800";
+      case "smart-assigned":
+        return "bg-yellow-100 text-yellow-800";
+      case "conflict-resolved":
+        return "bg-orange-100 text-orange-800";
       default:
-        return 'bg-gray-100 text-gray-800';
+        return "bg-gray-100 text-gray-800";
     }
   };
 
@@ -79,8 +83,14 @@ export const ActivityLog: React.FC<ActivityLogProps> = ({ activityLog, isOpen, o
                 <div className="text-2xl">{getActivityIcon(log.action)}</div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center space-x-2 mb-1">
-                    <span className="font-medium text-gray-800">{log.username}</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getActivityColor(log.action)}`}>
+                    <span className="font-medium text-gray-800">
+                      {log.username}
+                    </span>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${getActivityColor(
+                        log.action
+                      )}`}
+                    >
                       {log.action}
                     </span>
                   </div>

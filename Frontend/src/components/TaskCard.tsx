@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
-import { User, Clock, MoreVertical, Edit, Trash2, Zap, Info, X } from 'lucide-react';
-import { Task, User as UserType } from '../types';
+import React, { useState } from "react";
+import { Clock, MoreVertical, Edit, Trash2, Zap, Info, X } from "lucide-react";
+import { Task, User as UserType } from "../types";
 
 interface TaskCardProps {
   task: Task;
   users: UserType[];
-  currentUser: UserType;
   onUpdate: (taskId: string, updates: Partial<Task>) => void;
   onDelete: (taskId: string) => void;
   onSmartAssign: (taskId: string) => void;
@@ -15,7 +14,6 @@ interface TaskCardProps {
 export const TaskCard: React.FC<TaskCardProps> = ({
   task,
   users,
-  currentUser,
   onUpdate,
   onDelete,
   onSmartAssign,
@@ -27,19 +25,19 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   const [editTitle, setEditTitle] = useState(task.title);
   const [editDescription, setEditDescription] = useState(task.description);
 
-  const assignedUser = users.find(u => u.id === task.assignedTo);
-  const createdUser = users.find(u => u.id === task.createdBy);
+  const assignedUser = users.find((u) => u.id === task.assignedTo);
+  const createdUser = users.find((u) => u.id === task.createdBy);
 
   const priorityColors = {
-    low: 'bg-green-500',
-    medium: 'bg-yellow-500',
-    high: 'bg-red-500',
+    low: "bg-green-500",
+    medium: "bg-yellow-500",
+    high: "bg-red-500",
   };
 
   const priorityIcons = {
-    low: '🟢',
-    medium: '🟡',
-    high: '🔴',
+    low: "🟢",
+    medium: "🟡",
+    high: "🔴",
   };
 
   const handleSave = () => {
@@ -58,15 +56,23 @@ export const TaskCard: React.FC<TaskCardProps> = ({
   return (
     <>
       <div
-        className={`relative group ${isDragging ? 'opacity-50 transform rotate-2 scale-105' : ''} transition-all duration-200`}
+        className={`relative group ${
+          isDragging ? "opacity-50 transform rotate-2 scale-105" : ""
+        } transition-all duration-200`}
       >
         <div className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-200 p-4 border-l-4 border-purple-500 relative">
           {/* Priority indicator and menu */}
           <div className="flex items-start justify-between mb-3">
             <div className="flex items-center space-x-2">
               <span className="text-lg">{priorityIcons[task.priority]}</span>
-              <span className={`w-2 h-2 rounded-full ${priorityColors[task.priority]}`}></span>
-              <span className="text-xs font-medium text-gray-500 capitalize">{task.priority}</span>
+              <span
+                className={`w-2 h-2 rounded-full ${
+                  priorityColors[task.priority]
+                }`}
+              ></span>
+              <span className="text-xs font-medium text-gray-500 capitalize">
+                {task.priority}
+              </span>
             </div>
             <div className="relative">
               <button
@@ -77,8 +83,8 @@ export const TaskCard: React.FC<TaskCardProps> = ({
               </button>
               {showMenu && (
                 <>
-                  <div 
-                    className="fixed inset-0 z-40" 
+                  <div
+                    className="fixed inset-0 z-40"
                     onClick={() => setShowMenu(false)}
                   ></div>
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
@@ -133,7 +139,9 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           {isEditing ? (
             <div className="space-y-3">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Title
+                </label>
                 <input
                   value={editTitle}
                   onChange={(e) => setEditTitle(e.target.value)}
@@ -142,7 +150,9 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Description
+                </label>
                 <textarea
                   value={editDescription}
                   onChange={(e) => setEditDescription(e.target.value)}
@@ -168,9 +178,13 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             </div>
           ) : (
             <>
-              <h3 className="font-semibold text-gray-800 mb-2 line-clamp-2">{task.title}</h3>
-              <p className="text-gray-600 text-sm mb-4 line-clamp-3">{task.description}</p>
-              
+              <h3 className="font-semibold text-gray-800 mb-2 line-clamp-2">
+                {task.title}
+              </h3>
+              <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                {task.description}
+              </p>
+
               {/* Task footer */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
@@ -182,7 +196,9 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                       >
                         {assignedUser.username[0].toUpperCase()}
                       </div>
-                      <span className="text-sm text-gray-600 truncate max-w-20">{assignedUser.username}</span>
+                      <span className="text-sm text-gray-600 truncate max-w-20">
+                        {assignedUser.username}
+                      </span>
                     </>
                   )}
                 </div>
@@ -197,14 +213,15 @@ export const TaskCard: React.FC<TaskCardProps> = ({
           )}
         </div>
       </div>
-
       {/* Details Modal */}
       {showDetails && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-hidden">
             {/* Modal Header */}
             <div className="flex items-center justify-between p-4 border-b border-gray-200">
-              <h3 className="text-lg font-semibold text-gray-800">Task Details</h3>
+              <h3 className="text-lg font-semibold text-gray-800">
+                Task Details
+              </h3>
               <button
                 onClick={() => setShowDetails(false)}
                 className="p-1 hover:bg-gray-100 rounded-full transition-colors duration-200"
@@ -217,22 +234,38 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             <div className="p-4 space-y-4 overflow-y-auto">
               {/* Title */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
-                <p className="text-gray-900 bg-gray-50 p-2 rounded-md">{task.title}</p>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Title
+                </label>
+                <p className="text-gray-900 bg-gray-50 p-2 rounded-md">
+                  {task.title}
+                </p>
               </div>
 
               {/* Description */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-                <p className="text-gray-900 bg-gray-50 p-2 rounded-md min-h-[60px] whitespace-pre-wrap">{task.description}</p>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Description
+                </label>
+                <p className="text-gray-900 bg-gray-50 p-2 rounded-md min-h-[60px] whitespace-pre-wrap">
+                  {task.description}
+                </p>
               </div>
 
               {/* Priority */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Priority
+                </label>
                 <div className="flex items-center space-x-2">
-                  <span className="text-lg">{priorityIcons[task.priority]}</span>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium text-white ${priorityColors[task.priority]}`}>
+                  <span className="text-lg">
+                    {priorityIcons[task.priority]}
+                  </span>
+                  <span
+                    className={`px-2 py-1 rounded-full text-xs font-medium text-white ${
+                      priorityColors[task.priority]
+                    }`}
+                  >
                     {task.priority.toUpperCase()}
                   </span>
                 </div>
@@ -240,15 +273,19 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
               {/* Status */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Status
+                </label>
                 <span className="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded-full">
-                  {task.status.replace('-', ' ').toUpperCase()}
+                  {task.status.replace("-", " ").toUpperCase()}
                 </span>
               </div>
 
               {/* Assigned User */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Assigned To</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Assigned To
+                </label>
                 {assignedUser && (
                   <div className="flex items-center space-x-2">
                     <div
@@ -258,8 +295,12 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                       {assignedUser.username[0].toUpperCase()}
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-900">{assignedUser.username}</p>
-                      <p className="text-xs text-gray-500">{assignedUser.email}</p>
+                      <p className="text-sm font-medium text-gray-900">
+                        {assignedUser.username}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {assignedUser.email}
+                      </p>
                     </div>
                   </div>
                 )}
@@ -267,7 +308,9 @@ export const TaskCard: React.FC<TaskCardProps> = ({
 
               {/* Created By */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Created By</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Created By
+                </label>
                 {createdUser && (
                   <div className="flex items-center space-x-2">
                     <div
@@ -277,8 +320,12 @@ export const TaskCard: React.FC<TaskCardProps> = ({
                       {createdUser.username[0].toUpperCase()}
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-900">{createdUser.username}</p>
-                      <p className="text-xs text-gray-500">{createdUser.email}</p>
+                      <p className="text-sm font-medium text-gray-900">
+                        {createdUser.username}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {createdUser.email}
+                      </p>
                     </div>
                   </div>
                 )}
@@ -287,18 +334,28 @@ export const TaskCard: React.FC<TaskCardProps> = ({
               {/* Timestamps */}
               <div className="grid grid-cols-1 gap-3">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Created</label>
-                  <p className="text-sm text-gray-600">{new Date(task.createdAt).toLocaleString()}</p>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Created
+                  </label>
+                  <p className="text-sm text-gray-600">
+                    {new Date(task.createdAt).toLocaleString()}
+                  </p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Last Updated</label>
-                  <p className="text-sm text-gray-600">{new Date(task.updatedAt).toLocaleString()}</p>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Last Updated
+                  </label>
+                  <p className="text-sm text-gray-600">
+                    {new Date(task.updatedAt).toLocaleString()}
+                  </p>
                 </div>
               </div>
 
               {/* Version */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Version</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Version
+                </label>
                 <span className="inline-block px-2 py-1 bg-gray-100 text-gray-800 text-xs font-medium rounded">
                   v{task.version}
                 </span>
@@ -326,7 +383,8 @@ export const TaskCard: React.FC<TaskCardProps> = ({
             </div>
           </div>
         </div>
-      )}models
+      )}
+      models
     </>
   );
 };
